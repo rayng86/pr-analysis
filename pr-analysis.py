@@ -61,5 +61,8 @@ try:
     # print(df)
     columns = df.columns.tolist()
     print(columns)
+    table_results = df[columns].to_markdown(index=False)
+    with open('pr_analysis_report.md', 'w') as f:
+        f.write(table_results)
 except KeyError:
     print('Error: Something went terribly wrong!')
