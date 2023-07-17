@@ -72,11 +72,20 @@ try:
     df['Code Reviewers'] = code_reviewers
 
     table_results = df[columns].to_markdown(index=False)
+    report_page_date_str = datetime.datetime.now().strftime(formatted_date_string)
+    report_page = f"Report generated on {report_page_date_str}\n\n{table_results}"
 
-    report_date_str = datetime.datetime.now().strftime(formatted_date_string)
-    report_page = f"Report generated on {report_date_str}\n\n{table_results}"
+    # Create the generated-reports directory if it doesn't exist already
+    current_dir = os.getcwd()
+    generated_reports_dir = os.path.join(current_dir, 'generated-reports')
+    if not os.path.exists(generated_reports_dir):
+        os.makedirs(generated_reports_dir)
 
-    with open('pr-analysis-generated-report-{report_date_str}.md', 'w') as f:
+    report_filename_date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    file_name = f'pr-analysis-generated-report-{report_filename_date_str}.md'
+    output_file_path = os.path.join(generated_reports_dir, file_name)
+
+    with open(output_file_path, 'w') as f:
         f.write(report_page)
 except KeyError:
     print('Error: Something went terribly wrong!')
