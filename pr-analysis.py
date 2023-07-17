@@ -1,4 +1,5 @@
 import os
+import requests
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -23,3 +24,6 @@ headers = {
   'Content-Type': 'application/json'
 }
 
+response = requests.post(github_graphql_api_url, headers=headers, json={'query': query})
+
+# print(response.json())
