@@ -28,7 +28,10 @@ query {{
         }}
         createdAt
         closedAt
-        changedFiles
+        changedFiles,
+        timelineItems(itemTypes: [REVIEW_REQUESTED_EVENT], first: 100) {{
+          totalCount
+        }}
         reviews(first: 100) {{
           edges {{
             node {{
@@ -61,12 +64,13 @@ try:
     df = df.rename(columns={
       'number': 'PR #',
       'title': 'Title',
-      'author.login': 'Author',
+      'author.login': 'Code Author',
       'createdAt': 'Created At',
       'closedAt': 'Closed At',
       'reviews.edges': 'Code Reviewers',
       'mergedBy.login': 'Merged By',
-      'changedFiles': 'File Changes'
+      'changedFiles': 'File Changes',
+      'timelineItems.totalCount': '# Of Review Requests'
     })
 
     # The following formats the "Created At" and "Closed At" columns to be human friendly
