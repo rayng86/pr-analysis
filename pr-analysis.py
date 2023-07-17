@@ -1,6 +1,7 @@
 import os
 import requests
 import pandas as pd
+import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -71,7 +72,11 @@ try:
     df['Code Reviewers'] = code_reviewers
 
     table_results = df[columns].to_markdown(index=False)
-    with open('pr_analysis_report.md', 'w') as f:
-        f.write(table_results)
+
+    report_date_str = datetime.datetime.now().strftime(formatted_date_string)
+    report_page = f"Report generated on {report_date_str}\n\n{table_results}"
+
+    with open('pr-analysis-generated-report-{report_date_str}.md', 'w') as f:
+        f.write(report_page)
 except KeyError:
     print('Error: Something went terribly wrong!')
