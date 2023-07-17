@@ -59,5 +59,7 @@ try:
     })
 
     # print(df)
+    columns = df.columns.tolist()
+    print(columns)
 except KeyError:
     print('Error: Something went terribly wrong!')
