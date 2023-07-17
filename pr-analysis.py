@@ -5,15 +5,19 @@ import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
+from constants import PullRequestState
+
 github_graphql_api_url = os.getenv('GITHUB_GRAPHQL_API_URL')
 access_token = os.getenv('ACCESS_TOKEN')
 repo_owner = os.getenv('REPO_OWNER')
 repo_name = os.getenv('REPO_NAME')
 
+pr_state = PullRequestState.MERGED
+
 query = f'''
 query {{
   repository(owner: \"{repo_owner}\", name: \"{repo_name}\") {{
-    pullRequests(states: MERGED, first: 50, orderBy: {{ field: UPDATED_AT, direction: DESC }}) {{
+    pullRequests(states: {pr_state.value}, first: 50, orderBy: {{ field: UPDATED_AT, direction: DESC }}) {{
       nodes {{
         number
         title
