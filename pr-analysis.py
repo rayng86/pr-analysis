@@ -16,10 +16,22 @@ pr_state = PullRequestState.MERGED
 
 export_as_file_type = ExportTypeOptions.CSV.value
 
+pr_labels = []
+
+if pr_labels:
+    labels_filter_query = 'labels: ['
+    for i, label in enumerate(pr_labels):
+        if i > 0:
+            labels_filter_query += ', '
+        labels_filter_query += f'"{label}"'
+    labels_filter_query += '],'
+else:
+    labels_filter_query = ''
+
 query = f'''
 query {{
   repository(owner: \"{repo_owner}\", name: \"{repo_name}\") {{
-    pullRequests(states: {pr_state.value}, first: 50, orderBy: {{ field: UPDATED_AT, direction: DESC }}) {{
+    pullRequests(states: {pr_state.value}, first: 50, {labels_filter_query} orderBy: {{ field: UPDATED_AT, direction: DESC }}) {{
       nodes {{
         number
         title
