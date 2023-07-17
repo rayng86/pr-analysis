@@ -66,6 +66,10 @@ try:
     df['Closed At'] = pd.to_datetime(df['Closed At']).dt.strftime(formatted_date_string)
 
     columns = df.columns.tolist()
+    # This will get list of unique code reviewers who participated in the pull request
+    code_reviewers = [', '.join(list(set([edge['node']['author']['login'] for edge in pr['reviews']['edges']]))) if pr['reviews']['edges'] else '' for pr in data]
+    df['Code Reviewers'] = code_reviewers
+
     table_results = df[columns].to_markdown(index=False)
     with open('pr_analysis_report.md', 'w') as f:
         f.write(table_results)
