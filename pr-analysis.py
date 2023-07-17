@@ -22,6 +22,7 @@ query {{
         }}
         createdAt
         closedAt
+        changedFiles
         reviews(first: 100) {{
           edges {{
             node {{
@@ -58,7 +59,8 @@ try:
       'createdAt': 'Created At',
       'closedAt': 'Closed At',
       'reviews.edges': 'Code Reviewers',
-      'mergedBy.login': 'Merged By'
+      'mergedBy.login': 'Merged By',
+      'changedFiles': 'File Changes'
     })
 
     # The following formats the "Created At" and "Closed At" columns to be human friendly
