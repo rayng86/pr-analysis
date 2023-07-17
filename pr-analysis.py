@@ -39,6 +39,15 @@ try:
     data = response.json()['data']['repository']['pullRequests']['nodes']
     df = pd.json_normalize(data)
 
+    df = df.rename(columns={
+      'number': 'PR #',
+      'title': 'Title',
+      'author.login': 'Author',
+      'createdAt': 'Created At',
+      'closedAt': 'Closed At',
+      'mergedBy.login': 'Merged By'
+    })
+
     print(df)
 except KeyError:
     print('Error: Something went terribly wrong!')
