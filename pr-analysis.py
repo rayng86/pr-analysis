@@ -18,6 +18,15 @@ query {
         }
         createdAt
         closedAt
+        reviews(first: 100) {
+          edges {
+            node {
+              author {
+                login
+              }
+            }
+          }
+        }
         mergedBy {
           login
         }
@@ -45,9 +54,10 @@ try:
       'author.login': 'Author',
       'createdAt': 'Created At',
       'closedAt': 'Closed At',
+      'reviews.edges': 'Code Reviewers',
       'mergedBy.login': 'Merged By'
     })
 
-    print(df)
+    # print(df)
 except KeyError:
     print('Error: Something went terribly wrong!')
