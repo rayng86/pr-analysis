@@ -5,7 +5,7 @@ import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
-from constants import PullRequestState
+from constants import ExportTypeOptions, PullRequestState
 
 github_graphql_api_url = os.getenv('GITHUB_GRAPHQL_API_URL')
 access_token = os.getenv('ACCESS_TOKEN')
@@ -13,6 +13,8 @@ repo_owner = os.getenv('REPO_OWNER')
 repo_name = os.getenv('REPO_NAME')
 
 pr_state = PullRequestState.MERGED
+
+export_as_file_type = ExportTypeOptions.CSV.value
 
 query = f'''
 query {{
@@ -94,7 +96,16 @@ try:
 
     columns.append('Merge Time (Days)')
 
-    table_results = df[columns].to_markdown(index=False)
+
+    if export_as_file_type == ExportTypeOptions.MARKDOWN.value:
+      table_results = df[columns].to_markdown(index=False)
+    elif export_as_file_type == ExportTypeOptions.CSV.value:
+      table_results = df[columns].to_csv(index=False)
+    elif export_as_file_type == ExportTypeOptions.HTML.value:
+      table_results = df[columns].to_html(index=False).replace('class="dataframe"', 'class="dataframe" style="font-family: sans-serif;"')
+    else:
+      pass
+
     report_page_date_str = datetime.datetime.now().strftime(formatted_date_string)
     report_page = f"Report generated on {report_page_date_str}\n\n{table_results}"
 
@@ -105,7 +116,7 @@ try:
         os.makedirs(generated_reports_dir)
 
     report_filename_date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    file_name = f'pr-analysis-generated-report-{report_filename_date_str}.md'
+    file_name = f'pr-analysis-generated-report-{report_filename_date_str}.{export_as_file_type}'
     output_file_path = os.path.join(generated_reports_dir, file_name)
 
     with open(output_file_path, 'w') as f:
