@@ -1,11 +1,11 @@
 ## PR Analysis
 
 ### Prerequisites
-Make sure you have python 3.9.0 installed on your machine.
+Make sure you have python 3.9.0+ installed on your machine.
 ```
 python -m venv env
 source env/bin/activate
-run pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 ### How to run
