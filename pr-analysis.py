@@ -6,34 +6,37 @@ load_dotenv()
 
 github_graphql_api_url = os.getenv('GITHUB_GRAPHQL_API_URL')
 access_token = os.getenv('ACCESS_TOKEN')
-query = '''
-query {
-  repository(owner: \"rayng86\", name: \"ray_test_repo\") {
-    pullRequests(states: MERGED, first: 50, orderBy: {field: UPDATED_AT, direction: DESC}) {
-      nodes {
+repo_owner = os.getenv('REPO_OWNER')
+repo_name = os.getenv('REPO_NAME')
+
+query = f'''
+query {{
+  repository(owner: \"{repo_owner}\", name: \"{repo_name}\") {{
+    pullRequests(states: MERGED, first: 50, orderBy: {{ field: UPDATED_AT, direction: DESC }}) {{
+      nodes {{
         number
         title
-        author {
+        author {{
           login
-        }
+        }}
         createdAt
         closedAt
-        reviews(first: 100) {
-          edges {
-            node {
-              author {
+        reviews(first: 100) {{
+          edges {{
+            node {{
+              author {{
                 login
-              }
-            }
-          }
-        }
-        mergedBy {
+              }}
+            }}
+          }}
+        }}
+        mergedBy {{
           login
-        }
-      }
-    }
-  }
-}
+        }}
+      }}
+    }}
+  }}
+}}
 '''
 
 headers = {
