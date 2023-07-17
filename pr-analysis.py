@@ -46,7 +46,6 @@ headers = {
 
 response = requests.post(github_graphql_api_url, headers=headers, json={'query': query})
 
-# print(response.json())
 try:
     data = response.json()['data']['repository']['pullRequests']['nodes']
     df = pd.json_normalize(data)
