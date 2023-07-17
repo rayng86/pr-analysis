@@ -71,6 +71,23 @@ try:
     code_reviewers = [', '.join(list(set([edge['node']['author']['login'] for edge in pr['reviews']['edges']]))) if pr['reviews']['edges'] else '' for pr in data]
     df['Code Reviewers'] = code_reviewers
 
+    merge_times = []
+    for pr in data:
+        created_at = pd.to_datetime(pr['createdAt'])
+        closed_at = pd.to_datetime(pr['closedAt'])
+        merge_time = closed_at - created_at
+        merge_time_days = merge_time.days
+        if merge_time_days == 0:
+            merge_times.append('same day')
+        else:
+            merge_time_str = f"{merge_time_days} day"
+            if merge_time_days > 1:
+                merge_time_str += "s"
+            merge_times.append(merge_time_str)
+    df['Merge Time (Days)'] = merge_times
+
+    columns.append('Merge Time (Days)')
+
     table_results = df[columns].to_markdown(index=False)
     report_page_date_str = datetime.datetime.now().strftime(formatted_date_string)
     report_page = f"Report generated on {report_page_date_str}\n\n{table_results}"
