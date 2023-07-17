@@ -1,5 +1,6 @@
 import os
 import requests
+import pandas as pd
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -31,3 +32,10 @@ headers = {
 response = requests.post(github_graphql_api_url, headers=headers, json={'query': query})
 
 # print(response.json())
+try:
+    data = response.json()['data']['repository']['pullRequests']['nodes']
+    df = pd.json_normalize(data)
+
+    print(df)
+except KeyError:
+    print('Error: Something went terribly wrong!')
