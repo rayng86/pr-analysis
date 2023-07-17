@@ -61,6 +61,11 @@ try:
       'mergedBy.login': 'Merged By'
     })
 
+    # The following formats the "Created At" and "Closed At" columns to be human friendly
+    formatted_date_string = '%Y-%m-%d %H:%M:%S'
+    df['Created At'] = pd.to_datetime(df['Created At']).dt.strftime(formatted_date_string)
+    df['Closed At'] = pd.to_datetime(df['Closed At']).dt.strftime(formatted_date_string)
+
     columns = df.columns.tolist()
     table_results = df[columns].to_markdown(index=False)
     with open('pr_analysis_report.md', 'w') as f:
