@@ -18,6 +18,9 @@ query {
         }
         createdAt
         closedAt
+        mergedBy {
+          login
+        }
       }
     }
   }
