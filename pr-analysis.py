@@ -144,7 +144,7 @@ try:
         os.makedirs(generated_reports_dir)
 
     report_filename_date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    file_name = f'pr-analysis-generated-report-{report_filename_date_str}.{export_as_file_type}'
+    file_name = f'pr-analysis-generated-report-{report_filename_date_str}-{pr_state.value}.{export_as_file_type}'
     output_file_path = os.path.join(generated_reports_dir, file_name)
 
     with open(output_file_path, 'w') as f:
