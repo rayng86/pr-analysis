@@ -44,7 +44,16 @@ query {{
         timelineItems(itemTypes: [REVIEW_REQUESTED_EVENT], first: 100) {{
           totalCount
         }}
-        reviews(first: 100) {{
+        approvedReviews: reviews(first: 100, states: APPROVED) {{
+          edges {{
+            node {{
+              author {{
+                login
+              }}
+            }}
+          }}
+        }}
+        allReviews: reviews(first: 100) {{
           edges {{
             node {{
               author {{
@@ -79,7 +88,8 @@ try:
       'author.login': 'Code Author',
       'createdAt': 'Created At',
       'closedAt': 'Closed At',
-      'reviews.edges': 'Code Reviewers',
+      'allReviews.edges': 'Code Reviewers',
+      'approvedReviews.edges': 'Approved By',
       'mergedBy.login': 'Merged By',
       'changedFiles': 'File Changes',
       'timelineItems.totalCount': '# Of Review Requests'
@@ -92,8 +102,11 @@ try:
 
     columns = df.columns.tolist()
     # This will get list of unique code reviewers who participated in the pull request
-    code_reviewers = [', '.join(list(set([edge['node']['author']['login'] for edge in pr['reviews']['edges']]))) if pr['reviews']['edges'] else '' for pr in data]
+    code_reviewers = [', '.join(list(set([edge['node']['author']['login'] for edge in pr['allReviews']['edges']]))) if pr['allReviews']['edges'] else '' for pr in data]
     df['Code Reviewers'] = code_reviewers
+
+    approved_by_reviewers = [', '.join(list(set([edge['node']['author']['login'] for edge in pr['approvedReviews']['edges']]))) if pr['approvedReviews']['edges'] else '' for pr in data]
+    df['Approved By'] = approved_by_reviewers
 
     merge_times = []
     for pr in data:
@@ -111,7 +124,6 @@ try:
     df['Merge Time (Days)'] = merge_times
 
     columns.append('Merge Time (Days)')
-
 
     if export_as_file_type == ExportTypeOptions.MARKDOWN.value:
       table_results = df[columns].to_markdown(index=False)
