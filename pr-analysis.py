@@ -19,6 +19,11 @@ export_as_file_type = ExportTypeOptions.CSV.value
 
 pr_labels = []
 
+if pr_state is not None:
+  pr_state_query = f'states: {pr_state.value}, '
+else:
+  pr_state_query = ''
+
 if pr_labels:
     labels_filter_query = 'labels: ['
     for i, label in enumerate(pr_labels):
@@ -32,7 +37,7 @@ else:
 query = f'''
 query {{
   repository(owner: \"{repo_owner}\", name: \"{repo_name}\") {{
-    pullRequests(states: {pr_state.value}, first: 50, {labels_filter_query} orderBy: {{ field: UPDATED_AT, direction: DESC }}) {{
+    pullRequests({pr_state_query}first: 100, {labels_filter_query} orderBy: {{ field: CREATED_AT, direction: DESC }}) {{
       nodes {{
         number
         title
@@ -145,7 +150,10 @@ try:
         os.makedirs(generated_reports_dir)
 
     report_filename_date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    file_name = f'pr-analysis-generated-report-{report_filename_date_str}-{pr_state.value}.{export_as_file_type}'
+    file_name = f'pr-analysis-generated-report-{report_filename_date_str}'
+    if pr_state is not None:
+      file_name += f'-{pr_state.value}'
+    file_name += f'.{export_as_file_type}'
     output_file_path = os.path.join(generated_reports_dir, file_name)
 
     with open(output_file_path, 'w') as f:
