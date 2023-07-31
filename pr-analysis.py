@@ -6,21 +6,17 @@ import datetime
 from dotenv import load_dotenv
 load_dotenv()
 
-from constants import ExportTypeOptions, PullRequestState
+from constants import EXPORT_FILE_TYPE, PULL_REQUEST_STATE, ExportTypeOptions
 
 github_graphql_api_url = os.getenv('GITHUB_GRAPHQL_API_URL')
 access_token = os.getenv('ACCESS_TOKEN')
 repo_owner = os.getenv('REPO_OWNER')
 repo_name = os.getenv('REPO_NAME')
 
-pr_state = PullRequestState.MERGED
-
-export_as_file_type = ExportTypeOptions.CSV.value
-
 pr_labels = []
 
-if pr_state is not None:
-  pr_state_query = f'states: {pr_state.value}, '
+if PULL_REQUEST_STATE is not None:
+  pr_state_query = f'states: {PULL_REQUEST_STATE.value}, '
 else:
   pr_state_query = ''
 
@@ -41,12 +37,13 @@ query {{
       nodes {{
         number
         title
+        state
         author {{
           login
         }}
         createdAt
         closedAt
-        changedFiles,
+        changedFiles
         timelineItems(itemTypes: [REVIEW_REQUESTED_EVENT], first: 100) {{
           totalCount
         }}
@@ -91,6 +88,7 @@ try:
     df = df.rename(columns={
       'number': 'PR #',
       'title': 'Title',
+      'state': 'State',
       'author.login': 'Code Author',
       'createdAt': 'Created At',
       'closedAt': 'Closed At',
@@ -134,11 +132,11 @@ try:
 
     columns.append('Merge Time (Days)')
 
-    if export_as_file_type == ExportTypeOptions.MARKDOWN.value:
+    if EXPORT_FILE_TYPE == ExportTypeOptions.MARKDOWN.value:
       table_results = df[columns].to_markdown(index=False)
-    elif export_as_file_type == ExportTypeOptions.CSV.value:
+    elif EXPORT_FILE_TYPE == ExportTypeOptions.CSV.value:
       table_results = df[columns].to_csv(index=False)
-    elif export_as_file_type == ExportTypeOptions.HTML.value:
+    elif EXPORT_FILE_TYPE == ExportTypeOptions.HTML.value:
       table_results = df[columns].to_html(index=False).replace('class="dataframe"', 'class="dataframe" style="font-family: sans-serif;"')
     else:
       pass
@@ -154,9 +152,9 @@ try:
 
     report_filename_date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
     file_name = f'pr-analysis-generated-report-{report_filename_date_str}'
-    if pr_state is not None:
-      file_name += f'-{pr_state.value}'
-    file_name += f'.{export_as_file_type}'
+    if PULL_REQUEST_STATE is not None:
+      file_name += f'-{PULL_REQUEST_STATE.value}'
+    file_name += f'.{EXPORT_FILE_TYPE}'
     output_file_path = os.path.join(generated_reports_dir, file_name)
 
     with open(output_file_path, 'w') as f:

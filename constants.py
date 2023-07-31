@@ -9,3 +9,6 @@ class ExportTypeOptions(Enum):
     CSV = 'csv'
     HTML = 'html'
     MARKDOWN = 'md'
+
+PULL_REQUEST_STATE = None
+EXPORT_FILE_TYPE = ExportTypeOptions.CSV.value
