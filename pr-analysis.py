@@ -118,15 +118,18 @@ try:
     for pr in data:
         created_at = pd.to_datetime(pr['createdAt'])
         closed_at = pd.to_datetime(pr['closedAt'])
-        merge_time = closed_at - created_at
-        merge_time_days = merge_time.days
-        if merge_time_days == 0:
-            merge_times.append('same day')
+        if closed_at is not None:
+          merge_time = closed_at - created_at
+          merge_time_days = merge_time.days
+          if merge_time_days == 0:
+              merge_times.append('same day')
+          else:
+              merge_time_str = f"{merge_time_days} day"
+              if merge_time_days > 1:
+                  merge_time_str += "s"
+              merge_times.append(merge_time_str)
         else:
-            merge_time_str = f"{merge_time_days} day"
-            if merge_time_days > 1:
-                merge_time_str += "s"
-            merge_times.append(merge_time_str)
+          merge_times.append('')
     df['Merge Time (Days)'] = merge_times
 
     columns.append('Merge Time (Days)')
