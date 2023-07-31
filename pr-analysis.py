@@ -1,4 +1,5 @@
 import os
+import traceback
 import requests
 import pandas as pd
 import datetime
@@ -149,5 +150,6 @@ try:
 
     with open(output_file_path, 'w') as f:
         f.write(report_page)
-except KeyError:
-    print('Error: Something went terribly wrong!')
+except KeyError as e:
+    print(f'Error: Something went terribly wrong! Reason: {e}')
+    traceback.print_exc()
