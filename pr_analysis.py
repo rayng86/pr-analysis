@@ -137,11 +137,17 @@ df['Created At'] = pd.to_datetime(df['Created At']).dt.strftime(formatted_date_s
 df['Closed At'] = pd.to_datetime(df['Closed At']).dt.strftime(formatted_date_string)
 
 columns = df.columns.tolist()
-# This will get list of unique code reviewers who participated in the pull request
-code_reviewers = [', '.join(list(set([edge['node']['author']['login'] for edge in pr['allReviews']['edges']]))) if pr['allReviews']['edges'] else '' for pr in all_pr_data]
+
+def get_unique_sorted_users(data: any, key: str) -> list:
+  '''
+  Returns a list of unique sorted github users from the given pull request data
+  '''
+  return [', '.join(sorted(list(set([edge['node']['author']['login'] for edge in pr[key]['edges']])))) if pr[key]['edges'] else '' for pr in data]
+
+code_reviewers = get_unique_sorted_users(all_pr_data, 'allReviews')
 df['Code Reviewers'] = code_reviewers
 
-approved_by_reviewers = [', '.join(list(set([edge['node']['author']['login'] for edge in pr['approvedReviews']['edges']]))) if pr['approvedReviews']['edges'] else '' for pr in all_pr_data]
+approved_by_reviewers = get_unique_sorted_users(all_pr_data, 'approvedReviews')
 df['Approved By'] = approved_by_reviewers
 
 merge_times = []
