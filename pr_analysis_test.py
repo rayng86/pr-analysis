@@ -1,4 +1,4 @@
-from pr_analysis import get_unique_sorted_users, create_labels_filter_query
+from pr_analysis import get_unique_sorted_users, create_labels_filter_query, calculate_merge_times
 
 def test_get_unique_sorted_users():
     all_pr_data = [
@@ -56,3 +56,110 @@ def test_create_labels_filter_query():
     # multiple labels
     pr_labels = ['label1', 'label2', 'label3']
     assert create_labels_filter_query(pr_labels) == 'labels: ["label1", "label2", "label3"],'
+
+def test_calculate_merge_times():
+    # no data
+    all_pr_data = []
+    assert calculate_merge_times(all_pr_data) == []
+
+    # pull request merged on the same day
+    all_pr_data = [
+    {
+        "number": 53179,
+        "title": "Enhancing Performance and Functionality",
+        "state": "CLOSED",
+        "author": {
+        "login": "meh-user"
+        },
+        "createdAt": "2023-07-25T20:22:52Z",
+        "closedAt": "2023-07-25T21:10:23Z",
+        "changedFiles": 4,
+        "timelineItems": {
+        "totalCount": 7
+        },
+        "approvedReviews": {
+        "edges": []
+        },
+        "allReviews": {
+        "edges": []
+        },
+        "mergedBy": {
+            "login": "awesome-user"
+        }
+    }]
+    assert calculate_merge_times(all_pr_data) == ['same day']
+
+    # pull request merged after one day
+    all_pr_data = [{
+        "number": 53179,
+        "title": "Enhancing Performance and Functionality",
+        "state": "CLOSED",
+        "author": {
+        "login": "meh-user"
+        },
+        "createdAt": "2023-07-25T20:22:52Z",
+        "closedAt": "2023-07-26T21:10:23Z",
+        "changedFiles": 4,
+        "timelineItems": {
+        "totalCount": 7
+        },
+        "approvedReviews": {
+        "edges": []
+        },
+        "allReviews": {
+        "edges": []
+        },
+        "mergedBy": {
+            "login": "awesome-user"
+        }
+    }]
+    assert calculate_merge_times(all_pr_data) == ['1 day']
+
+    # pull request merged after multiple days
+    all_pr_data = [{
+        "number": 53179,
+        "title": "Enhancing Performance and Functionality",
+        "state": "CLOSED",
+        "author": {
+        "login": "meh-user"
+        },
+        "createdAt": "2023-07-25T20:22:52Z",
+        "closedAt": "2023-07-30T21:10:23Z",
+        "changedFiles": 4,
+        "timelineItems": {
+        "totalCount": 7
+        },
+        "approvedReviews": {
+        "edges": []
+        },
+        "allReviews": {
+        "edges": []
+        },
+        "mergedBy": {
+            "login": "awesome-user"
+        }
+    },
+    {
+        "number": 53179,
+        "title": "Enhancing Performance and Functionality Part 2",
+        "state": "CLOSED",
+        "author": {
+        "login": "meh-user"
+        },
+        "createdAt": "2023-07-25T20:22:52Z",
+        "closedAt": "2023-08-30T21:10:23Z",
+        "changedFiles": 4,
+        "timelineItems": {
+        "totalCount": 7
+        },
+        "approvedReviews": {
+        "edges": []
+        },
+        "allReviews": {
+        "edges": []
+        },
+        "mergedBy": {
+            "login": "awesome-user"
+        }
+    }]
+    assert calculate_merge_times(all_pr_data) == ['5 days', '36 days']
