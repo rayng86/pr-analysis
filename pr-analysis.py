@@ -182,7 +182,7 @@ if not os.path.exists(generated_reports_dir):
     os.makedirs(generated_reports_dir)
 
 report_filename_date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-file_name = f'pr-analysis-generated-report-{report_filename_date_str}'
+file_name = f'pr-analysis-generated-report-{repo_owner}-{repo_name}-{report_filename_date_str}'
 if PULL_REQUEST_STATE is not None:
   file_name += f'-{PULL_REQUEST_STATE.value}'
 file_name += f'.{EXPORT_FILE_TYPE}'
