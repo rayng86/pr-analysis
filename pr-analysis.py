@@ -125,10 +125,11 @@ df = df.rename(columns={
   'closedAt': 'Closed At',
   'allReviews.edges': 'Code Reviewers',
   'approvedReviews.edges': 'Approved By',
-  'mergedBy.login': 'Merged By',
   'changedFiles': 'File Changes',
   'timelineItems.totalCount': '# Of Review Requests'
 })
+
+df = df.rename(columns={'mergedBy.login': 'Merged By'}).drop(columns=['mergedBy'])
 
 # The following formats the "Created At" and "Closed At" columns to be human friendly
 formatted_date_string = '%Y-%m-%d %H:%M:%S'
