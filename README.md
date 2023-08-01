@@ -16,4 +16,4 @@ pip install -r requirements.txt
 5. Paste the personal access token into the `.env` file under `ACCESS_TOKEN`. Save file.
 6. Be sure to update the graphql github api base url if necessary.
 7. Update the `REPO_OWNER` and `REPO_NAME` in the .env file and make sure that it is correct.
-8. To execute, run `python pr-analysis.py`
+8. To execute, run `python pr_analysis.py`
