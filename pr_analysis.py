@@ -16,20 +16,23 @@ repo_name = os.getenv('REPO_NAME')
 
 pr_labels = []
 
+def create_labels_filter_query(pr_labels):
+    if pr_labels:
+        labels_filter_query = 'labels: ['
+        for i, label in enumerate(pr_labels):
+            if i > 0:
+                labels_filter_query += ', '
+            labels_filter_query += f'"{label}"'
+        labels_filter_query += '],'
+    else:
+        labels_filter_query = ''
+    return labels_filter_query
+
 if PULL_REQUEST_STATE is not None:
   pr_state_query = f'states: {PULL_REQUEST_STATE}, '
 else:
   pr_state_query = ''
 
-if pr_labels:
-    labels_filter_query = 'labels: ['
-    for i, label in enumerate(pr_labels):
-        if i > 0:
-            labels_filter_query += ', '
-        labels_filter_query += f'"{label}"'
-    labels_filter_query += '],'
-else:
-    labels_filter_query = ''
 
 all_pr_data = []
 end_cursor = None
@@ -41,7 +44,7 @@ with alive_bar(None, title='Processing pages...') as bar:
     query = f'''
     query {{
       repository(owner: \"{repo_owner}\", name: \"{repo_name}\") {{
-        pullRequests({pr_state_query}first: 100{after_query}, {labels_filter_query} orderBy: {{ field: CREATED_AT, direction: DESC }}) {{
+        pullRequests({pr_state_query}first: 100{after_query}, {create_labels_filter_query(pr_labels)} orderBy: {{ field: CREATED_AT, direction: DESC }}) {{
           pageInfo {{
             endCursor
             hasNextPage
