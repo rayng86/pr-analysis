@@ -1,0 +1,103 @@
+Report generated on 2023-08-01 01:01:08
+
+PR #,Title,State,Created At,Closed At,File Changes,Code Author,# Of Review Requests,Approved By,Code Reviewers,Merged By,Merge Time (Days)
+53419,fix: update lost dependencies for examples,MERGED,2023-08-01 03:54:54,2023-08-01 04:06:07,1,li-jia-nan,4,leerob,leerob,kodiakhq,same day
+53417,Fix for image optimization API not working with custom loader file,OPEN,2023-08-01 03:38:01,,1,goguda,6,,,,
+53416,Update `swc_core` to `v0.79.36`,OPEN,2023-08-01 03:31:07,,4,kdy1,5,,,,
+53414,docs: fix broken diagram in caching docs,MERGED,2023-08-01 02:54:51,2023-08-01 03:21:00,1,leerob,4,ijjk,ijjk,kodiakhq,same day
+53413,chore(ci): remove console.log(),MERGED,2023-08-01 01:19:09,2023-08-01 01:32:12,1,styfle,6,"ztanner, ijjk","ztanner, ijjk",kodiakhq,same day
+53412,Fix windows unit tests,MERGED,2023-08-01 00:51:12,2023-08-01 01:06:19,5,ijjk,6,,,ijjk,same day
+53411,Always add `?ts=` query for scripts during development,MERGED,2023-07-31 21:41:22,2023-07-31 22:32:29,1,shuding,5,ijjk,"styfle, ijjk, shuding",kodiakhq,same day
+53408,chore(test): move build-spinners node-pty test to isolated,MERGED,2023-07-31 21:29:38,2023-08-01 00:30:22,3,styfle,7,ijjk,ijjk,kodiakhq,same day
+53406,additional test runner refactoring,MERGED,2023-07-31 20:16:04,2023-08-01 00:04:45,2,ztanner,9,ijjk,ijjk,kodiakhq,same day
+53402,Add docs page for uncaught DynamicServerErrors,OPEN,2023-07-31 18:35:56,,9,ztanner,9,,,,
+53396,[WIP] test(turbo): allow to run test with --experimental-turbo,OPEN,2023-07-31 16:50:55,,4,kwonoj,0,,,,
+53395,Remove fibers from peerDependencies,MERGED,2023-07-31 16:27:16,2023-07-31 17:12:43,3,ijjk,7,,styfle,ijjk,same day
+53393,Disable `colormin` feature from `cssnano`,OPEN,2023-07-31 15:56:50,,6,RobinMalfait,7,,,,
+53391,Tweak flakey prefetch test handling,MERGED,2023-07-31 15:47:24,2023-07-31 16:20:44,1,ijjk,5,ztanner,ztanner,kodiakhq,same day
+53387,Turbopack: add edge app routes ,OPEN,2023-07-31 15:21:26,,12,sokra,0,,,,
+53385,Limit sharp's concurrency,OPEN,2023-07-31 14:39:08,,1,shuding,7,Sanjay-shankar,"styfle, Sanjay-shankar, shuding",,
+53381,"Revert ""Update `swc_core` to `v0.79.33` (#53308)""",MERGED,2023-07-31 13:33:33,2023-07-31 13:35:39,2,ijjk,3,kdy1,kdy1,ijjk,same day
+53380,Fix build-native turbo config,MERGED,2023-07-31 13:32:30,2023-07-31 14:00:31,1,ijjk,6,"styfle, feedthejim","styfle, feedthejim",kodiakhq,same day
+53377,Docs: Review Getting Started and Installation Pages,OPEN,2023-07-31 12:01:23,,3,delbaoliveira,4,Sanjay-shankar,Sanjay-shankar,,
+53375,fix(app): enable React Strict Mode by default,OPEN,2023-07-31 11:15:30,,2,balazsorban44,6,feedthejim,feedthejim,,
+53373,router: apply server actions in a similar way to router.refresh(),MERGED,2023-07-31 11:06:05,2023-07-31 19:52:31,8,timneutkens,4,,"timneutkens, feedthejim, shuding",timneutkens,same day
+53372,examples: implement server side auth with supabase,OPEN,2023-07-31 10:44:05,,12,dijonmusters,4,,"dijonmusters, leerob",,
+53369,Trigger Suspense boundary when using fetch with revalidate in dynamically rendered pages,OPEN,2023-07-31 08:49:31,,1,rinald-ta,6,,,,
+53368,actions: fix revalidate after redirect,MERGED,2023-07-31 08:05:58,2023-07-31 10:08:53,8,feedthejim,5,timneutkens,timneutkens,kodiakhq,same day
+53365,chore: [WIP] replace var with const,CLOSED,2023-07-31 02:23:20,2023-07-31 02:23:48,1,li-jia-nan,6,,,,same day
+53362,[Docs] remove x-xss-protection-header,MERGED,2023-07-30 19:47:34,2023-07-30 20:12:42,1,konojunya,4,ijjk,ijjk,kodiakhq,same day
+53359,WIP Parallize acorn parsing in webpack,OPEN,2023-07-30 18:16:05,,3,timneutkens,4,,kwonoj,,
+53349,[Docs] Clarify the ability to access current route segments in layouts,OPEN,2023-07-30 09:21:43,,1,SonMooSans,4,,,,
+53348,Example/app dir sentry,OPEN,2023-07-30 08:21:47,,32,mayank1513,5,,,,
+53343,Prefer svg icon instead favicon if possible,MERGED,2023-07-29 22:18:48,2023-07-31 14:32:39,2,huozhi,6,"ijjk, Sanjay-shankar","ijjk, Sanjay-shankar",ijjk,1 day
+53340,Update flakey app-action and prerender-prefetch tests,MERGED,2023-07-29 19:09:40,2023-07-30 19:51:24,2,ijjk,5,,huozhi,ijjk,1 day
+53334,update dependencies,OPEN,2023-07-29 17:08:38,,1,mayank1513,4,,,,
+53330,fix(#50208): `--no-mangling` support for swc minify,OPEN,2023-07-29 09:31:47,,1,SukkaW,5,,,,
+53327,docs: update active link code snippet for better equality check,MERGED,2023-07-29 06:13:07,2023-07-30 23:21:59,1,ozansevkin,4,leerob,leerob,kodiakhq,1 day
+53325,refactor: change unnecessary else to continue,CLOSED,2023-07-29 05:56:31,2023-07-29 07:15:20,1,Ryan-Dia,6,,ijjk,,same day
+53321,Update tag handling for app cache,OPEN,2023-07-29 00:24:10,,23,ijjk,0,,,,
+53320,remove --force from install-native postinstall,MERGED,2023-07-28 23:40:02,2023-07-28 23:54:48,1,ztanner,1,ijjk,ijjk,kodiakhq,same day
+53318,Try to fix flakey `socket hang up` failures in stream cancel tests,MERGED,2023-07-28 21:29:53,2023-07-28 22:59:24,6,jridgewell,6,ijjk,ijjk,kodiakhq,same day
+53317,Fixed simple typo in documentation,MERGED,2023-07-28 21:15:34,2023-07-28 21:22:37,1,Budmin,4,ijjk,ijjk,kodiakhq,same day
+53316, Added note to address #35305,OPEN,2023-07-28 21:09:14,,1,Budmin,4,,leerob,,
+53313,Add useOptimistic to client-only errors,OPEN,2023-07-28 20:30:46,,3,adrianbw,6,,ztanner,,
+53311,fix: (README.md) Fix typing error,MERGED,2023-07-28 20:22:44,2023-07-28 20:43:43,1,felipe-b-oliveira,4,styfle,styfle,kodiakhq,same day
+53308,Update `swc_core` to `v0.79.33`,MERGED,2023-07-28 19:48:49,2023-07-29 07:58:03,2,kdy1,4,"ijjk, sokra","ijjk, sokra",kodiakhq,same day
+53307,Error handling when non-string value is passed as parameter to catch-all segments,OPEN,2023-07-28 18:29:51,,2,smcg468,7,,,,
+53303,docs: Add `next-international` to examples list,MERGED,2023-07-28 16:46:29,2023-07-28 21:04:23,1,steven-tey,4,leerob,leerob,kodiakhq,same day
+53291,update turbopack,MERGED,2023-07-28 12:06:07,2023-07-29 05:57:37,4,sokra,5,ijjk,ijjk,ijjk,same day
+53285,Turbopack: clear require.cache after writing files (Next.rs API),MERGED,2023-07-28 08:55:57,2023-07-28 10:48:56,3,sokra,7,alexkirsz,alexkirsz,sokra,same day
+53284,fix(font): expose loading error for debugging,MERGED,2023-07-28 08:04:18,2023-07-28 08:19:50,1,balazsorban44,6,timneutkens,timneutkens,kodiakhq,same day
+53282,feature: Update cases in [Incorrect nesting of HTML tags],MERGED,2023-07-28 06:40:55,2023-07-28 18:12:16,1,hydRAnger,4,styfle,styfle,kodiakhq,same day
+53275,"add a ""skip"" cache type to verbose logging mode",MERGED,2023-07-28 00:57:41,2023-07-28 20:01:31,5,ztanner,5,"ijjk, huozhi","ijjk, huozhi",kodiakhq,same day
+53270,ensure colocated unit tests run in CI & fix various failing tests,MERGED,2023-07-27 19:41:59,2023-07-28 13:54:15,9,ztanner,9,ijjk,"ztanner, styfle, ijjk",kodiakhq,same day
+53268,chore(docs): remove repeated closing bracket,MERGED,2023-07-27 18:13:16,2023-07-27 19:35:34,1,Michaeloye,4,styfle,styfle,kodiakhq,same day
+53266,Turbopack: Update Turbopack,MERGED,2023-07-27 16:52:08,2023-07-27 19:00:13,4,alexkirsz,5,ijjk,ijjk,ijjk,same day
+53263,Update use-router.mdx,CLOSED,2023-07-27 15:51:34,2023-07-27 23:10:08,1,DaduDev,4,,styfle,,same day
+53259,Avoid bundling `react-dev-overlay` for dev,MERGED,2023-07-27 13:15:32,2023-07-27 14:13:41,1,shuding,4,"ztanner, feedthejim","ztanner, feedthejim",timneutkens,same day
+53255,example: Improve Stripe examples,OPEN,2023-07-27 12:48:49,,38,jsteele-stripe,0,,,,
+53254,docs: match image example with code,MERGED,2023-07-27 12:17:26,2023-07-27 12:27:50,1,balazsorban44,4,delbaoliveira,delbaoliveira,kodiakhq,same day
+53251,Add Meilisearch example,OPEN,2023-07-27 10:21:28,,14,Strift,4,,,,
+53247,fix route groups in app_structure,MERGED,2023-07-27 08:14:07,2023-07-27 22:22:19,8,sokra,4,ijjk,"timneutkens, ijjk",kodiakhq,same day
+53246,chore: update google font data,OPEN,2023-07-27 08:07:18,,2,marcelblijleven,6,,,,
+53241,refactor(cna): make `create-next-app` even smaller,MERGED,2023-07-27 06:33:48,2023-07-28 17:21:59,5,SukkaW,9,"styfle, ijjk","styfle, ijjk, imranbarbhuiya, SukkaW",kodiakhq,1 day
+53239,Add more retries to font fetching,OPEN,2023-07-27 05:56:29,,1,smorimoto,6,,,,
+53237,Create Environment,CLOSED,2023-07-27 04:51:00,2023-07-27 05:23:30,1,sammyfilly,6,,,,same day
+53232,Update runner config,OPEN,2023-07-26 23:11:04,,1,ijjk,0,,,,
+53231,Fix file tracing issues for not-found pages,MERGED,2023-07-26 22:54:47,2023-07-27 00:08:53,4,ztanner,5,ijjk,ijjk,kodiakhq,same day
+53230,fix(next-swc): exclude raw target triples without native bindings,MERGED,2023-07-26 21:12:24,2023-07-26 22:32:08,1,kwonoj,5,ijjk,"ijjk, kwonoj",ijjk,same day
+53229,Add CI label,MERGED,2023-07-26 20:16:38,2023-07-26 21:50:05,1,ijjk,4,styfle,styfle,ijjk,same day
+53227,[create-next-app] fix template css for top / bottom alignment,MERGED,2023-07-26 20:05:58,2023-07-26 20:41:08,8,jueungrace,1,ijjk,ijjk,kodiakhq,same day
+53226,Update README.md,CLOSED,2023-07-26 19:47:03,2023-07-26 20:19:01,1,sammyfilly,4,,,,same day
+53223,add hydration error testcase when using `useId()` in a client component,MERGED,2023-07-26 18:32:06,2023-07-26 18:46:43,1,ztanner,5,ijjk,ijjk,kodiakhq,same day
+53221,update turbopack,MERGED,2023-07-26 17:43:06,2023-07-26 18:56:08,4,sokra,5,"styfle, ijjk","styfle, ijjk",ijjk,same day
+53220,Split into dev server and next.rs api mode,MERGED,2023-07-26 17:34:37,2023-07-26 19:21:49,21,sokra,8,ijjk,ijjk,kodiakhq,same day
+53219,some bugfixes to resolving and context creation,MERGED,2023-07-26 17:22:19,2023-07-27 07:46:50,6,sokra,5,alexkirsz,alexkirsz,kodiakhq,same day
+53216,Fix hydration errors caused by root ErrorOverlay,MERGED,2023-07-26 14:47:35,2023-07-26 18:18:00,4,ztanner,5,"timneutkens, Sanjay-shankar","timneutkens, Sanjay-shankar",timneutkens,same day
+53214,"docs(upgrading): add ""Migrating from Vite"" guide",OPEN,2023-07-26 14:09:58,,1,IGassmann,4,,,,
+53212,fix: Apply ReactDevOverlay after hydration to prevent useId breakage,CLOSED,2023-07-26 13:52:56,2023-07-26 14:53:58,1,icyJoseph,6,,,,same day
+53207,chore(examples): fall back to English dictionary in i18n example,MERGED,2023-07-26 12:17:37,2023-07-29 06:38:26,1,balazsorban44,4,ijjk,"styfle, ijjk",kodiakhq,2 days
+53197,Fix grammatical error in docs,MERGED,2023-07-26 05:19:39,2023-07-26 13:25:26,1,Aryan9592,4,"styfle, balazsorban44","styfle, balazsorban44",kodiakhq,same day
+53194,Remove arbitrary timeout in pr/release stats,MERGED,2023-07-26 04:37:18,2023-07-27 18:58:42,1,ijjk,4,styfle,styfle,ijjk,1 day
+53192,Update 01-installation.mdx,MERGED,2023-07-26 04:34:15,2023-07-26 15:34:27,1,Aryan9592,4,"styfle, balazsorban44","styfle, balazsorban44",kodiakhq,same day
+53189,Handle basePath app-dir minimal case,MERGED,2023-07-26 03:46:06,2023-07-26 04:05:47,1,ijjk,5,,,ijjk,same day
+53186,refactor smooth scroll bailout logic in app navigations,MERGED,2023-07-26 01:46:06,2023-07-27 14:39:51,14,ztanner,6,feedthejim,"timneutkens, ztanner, feedthejim",kodiakhq,1 day
+53184,feat: add `generateMetadata` option for pagination link rel property,OPEN,2023-07-25 22:57:05,,9,devjiwonchoi,6,,,,
+53182,Fix 500 error on NormalizeError,OPEN,2023-07-25 22:33:17,,2,rfearing,6,dustinbrownman,"dustinbrownman, rfearing",,
+53181,feat(next): next info --run-diags for additional details,OPEN,2023-07-25 21:12:09,,3,kwonoj,12,,"styfle, kwonoj",,
+53180,Introduce Performance and Resource Efficiency Improvements using `Promise.all` ✈,OPEN,2023-07-25 21:11:33,,4,sanjaiyan-dev,7,,,,
+53179,Enhancing Performance and Functionality with React Server Components: Introducing `createServerContext` ✨,CLOSED,2023-07-25 20:22:52,2023-07-25 21:10:23,4,sanjaiyan-dev,7,,,,same day
+53176,feat(next-swc): log swc download url if fails,MERGED,2023-07-25 19:09:49,2023-07-26 20:13:38,1,kwonoj,6,"styfle, ijjk","styfle, ijjk",ijjk,1 day
+53174,Fix minimal basePath handling,MERGED,2023-07-25 19:07:44,2023-07-25 19:33:44,1,ijjk,5,styfle,styfle,ijjk,same day
+53168,Update 02-dynamic-routes.mdx,CLOSED,2023-07-25 14:58:25,2023-07-25 16:14:23,1,tawhid-k,4,,,,same day
+53165,chore: extract common get-validated-args,MERGED,2023-07-25 14:10:19,2023-07-25 14:25:53,8,styfle,6,"timneutkens, ijjk","timneutkens, ijjk",kodiakhq,same day
+53164,chore(docs): client-side data fetching loading state,MERGED,2023-07-25 13:37:49,2023-07-25 16:49:41,1,daniel-web-developer,4,styfle,styfle,kodiakhq,same day
+53162,(WIP) Create pages renderer in the router process,OPEN,2023-07-25 13:00:21,,4,shuding,0,,,,
+53160,(wip) Update task queuing method in stream helper,CLOSED,2023-07-25 12:32:38,2023-07-27 13:10:46,1,shuding,0,,,,2 days
+53157,fix(edge): allow `Request` cloning via `NextRequest`,MERGED,2023-07-25 11:01:54,2023-07-25 11:36:40,2,balazsorban44,6,feedthejim,feedthejim,kodiakhq,same day
+53150,[WIP] refactor: replace ajv with zod,OPEN,2023-07-25 08:05:05,,1,SukkaW,6,,,,
+53148,align not-found between dev and prod,OPEN,2023-07-25 07:19:23,,4,sokra,0,,,,
+53146,"refactor(cna): replace `chalk` with `picocolors`, `glob` with `fast-glob@2.2.7`",MERGED,2023-07-25 06:17:58,2023-07-26 18:16:13,8,SukkaW,9,"styfle, shuding","styfle, shuding, SukkaW",kodiakhq,1 day
+53144,Add `size` property to `ReadonlySearchParams`,OPEN,2023-07-25 04:28:41,,2,bencmbrook,9,,"timneutkens, styfle",,
+53143,Clarify requirements for running examples,MERGED,2023-07-25 04:25:53,2023-07-29 05:59:16,1,mayank1513,6,"timneutkens, ijjk, balazsorban44","timneutkens, ijjk, balazsorban44",ijjk,4 days
