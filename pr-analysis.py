@@ -17,7 +17,7 @@ repo_name = os.getenv('REPO_NAME')
 pr_labels = []
 
 if PULL_REQUEST_STATE is not None:
-  pr_state_query = f'states: {PULL_REQUEST_STATE.value}, '
+  pr_state_query = f'states: {PULL_REQUEST_STATE}, '
 else:
   pr_state_query = ''
 
@@ -185,7 +185,7 @@ if not os.path.exists(generated_reports_dir):
 report_filename_date_str = datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
 file_name = f'pr-analysis-generated-report-{repo_owner}-{repo_name}-{report_filename_date_str}'
 if PULL_REQUEST_STATE is not None:
-  file_name += f'-{PULL_REQUEST_STATE.value}'
+  file_name += f'-{PULL_REQUEST_STATE}'
 file_name += f'.{EXPORT_FILE_TYPE}'
 output_file_path = os.path.join(generated_reports_dir, file_name)
 
