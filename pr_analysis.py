@@ -7,7 +7,7 @@ from alive_progress import alive_bar
 from dotenv import load_dotenv
 load_dotenv()
 
-from constants import EXPORT_FILE_TYPE, MAX_PAGE_COUNT_LIMIT, PULL_REQUEST_STATE, ExportTypeOptions
+from constants import EXPORT_FILE_TYPE, MAX_PAGE_COUNT_LIMIT, MERGE_TIME_FORMAT, PULL_REQUEST_STATE, ColumnNames, ExportTypeOptions, MergeTimeFormat, PullRequestState
 
 github_graphql_api_url = os.getenv('GITHUB_GRAPHQL_API_URL')
 access_token = os.getenv('ACCESS_TOKEN')
@@ -52,6 +52,7 @@ with alive_bar(None, title='Processing pages...') as bar:
           nodes {{
             number
             title
+            isDraft
             state
             author {{
               login
@@ -120,16 +121,17 @@ if response.json()['data']['repository']['pullRequests']['pageInfo']['hasNextPag
 df = pd.json_normalize(all_pr_data)
 
 df = df.rename(columns={
-  'number': 'PR #',
-  'title': 'Title',
-  'state': 'State',
-  'author.login': 'Code Author',
-  'createdAt': 'Created At',
-  'closedAt': 'Closed At',
-  'allReviews.edges': 'Code Reviewers',
-  'approvedReviews.edges': 'Approved By',
-  'changedFiles': 'File Changes',
-  'timelineItems.totalCount': '# Of Review Requests'
+  'number': ColumnNames.PR_NUMBER.value,
+  'title': ColumnNames.TITLE.value,
+  'state': ColumnNames.STATE.value,
+  'isDraft': ColumnNames.IS_DRAFT.value,
+  'author.login': ColumnNames.CODE_AUTHOR.value,
+  'createdAt': ColumnNames.CREATED_AT.value,
+  'closedAt': ColumnNames.CLOSED_AT.value,
+  'allReviews.edges': ColumnNames.CODE_REVIEWERS.value,
+  'approvedReviews.edges': ColumnNames.APPROVED_BY.value,
+  'changedFiles': ColumnNames.FILE_CHANGES.value,
+  'timelineItems.totalCount': ColumnNames.NUM_REVIEW_REQUESTS.value
 })
 
 df = df.rename(columns={'mergedBy.login': 'Merged By'}).drop(columns=['mergedBy'])
@@ -138,8 +140,6 @@ df = df.rename(columns={'mergedBy.login': 'Merged By'}).drop(columns=['mergedBy'
 formatted_date_string = '%Y-%m-%d %H:%M:%S'
 df['Created At'] = pd.to_datetime(df['Created At']).dt.strftime(formatted_date_string)
 df['Closed At'] = pd.to_datetime(df['Closed At']).dt.strftime(formatted_date_string)
-
-columns = df.columns.tolist()
 
 def get_unique_sorted_users(data: any, key: str) -> list:
   '''
@@ -153,34 +153,71 @@ df['Code Reviewers'] = code_reviewers
 approved_by_reviewers = get_unique_sorted_users(all_pr_data, 'approvedReviews')
 df['Approved By'] = approved_by_reviewers
 
+def format_merge_time(merge_time):
+    merge_time_str = ""
+    if MERGE_TIME_FORMAT == MergeTimeFormat.DAYS:
+        merge_time_days = merge_time.days
+        if merge_time_days == 0:
+            merge_time_str = 'same day'
+        else:
+            merge_time_str = f"{merge_time_days} day"
+            if merge_time_days > 1:
+                merge_time_str += "s"
+    elif MERGE_TIME_FORMAT == MergeTimeFormat.HOURS:
+        total_seconds = merge_time.total_seconds()
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        days, hours = divmod(hours, 24)
+        if days > 0:
+            merge_time_str += f"{int(days)}d "
+        if hours > 0:
+            merge_time_str += f"{int(hours)}h "
+        if minutes > 0:
+            merge_time_str += f"{int(minutes)}m "
+        if total_seconds < 60:
+            merge_time_str += f"{int(total_seconds)}s "
+    return merge_time_str.strip()
+
 def calculate_merge_times(data: any) -> list:
     merge_times = []
     for pr in data:
-        created_at = pd.to_datetime(pr['createdAt'])
-        closed_at = pd.to_datetime(pr['closedAt'])
-        if pd.notnull(closed_at):
-            merge_time = closed_at - created_at
-            merge_time_days = merge_time.days
-            if merge_time_days == 0:
-                merge_times.append('same day')
+        if pr['state'] == PullRequestState.MERGED.value:
+            created_at = pd.to_datetime(pr['createdAt'])
+            closed_at = pd.to_datetime(pr['closedAt'])
+            if pd.notnull(closed_at):
+                merge_time = closed_at - created_at
+                merge_times.append(format_merge_time(merge_time))
             else:
-                merge_time_str = f"{merge_time_days} day"
-                if merge_time_days > 1:
-                    merge_time_str += "s"
-                merge_times.append(merge_time_str)
+                merge_times.append('')
         else:
             merge_times.append('')
     return merge_times
-df['Merge Time (Days)'] = calculate_merge_times(all_pr_data)
 
-columns.append('Merge Time (Days)')
+df[ColumnNames.MERGE_TIME.value] = calculate_merge_times(all_pr_data)
+
+# reordered column results
+df = df[[
+  ColumnNames.PR_NUMBER.value,
+  ColumnNames.TITLE.value,
+  ColumnNames.CREATED_AT.value,
+  ColumnNames.CLOSED_AT.value,
+  ColumnNames.IS_DRAFT.value,
+  ColumnNames.STATE.value,
+  ColumnNames.FILE_CHANGES.value,
+  ColumnNames.CODE_AUTHOR.value,
+  ColumnNames.CODE_REVIEWERS.value,
+  ColumnNames.NUM_REVIEW_REQUESTS.value,
+  ColumnNames.APPROVED_BY.value,
+  ColumnNames.MERGED_BY.value,
+  ColumnNames.MERGE_TIME.value,
+]]
 
 if EXPORT_FILE_TYPE == ExportTypeOptions.MARKDOWN.value:
-  table_results = df[columns].to_markdown(index=False)
+  table_results = df.to_markdown(index=False)
 elif EXPORT_FILE_TYPE == ExportTypeOptions.CSV.value:
-  table_results = df[columns].to_csv(index=False)
+  table_results = df.to_csv(index=False)
 elif EXPORT_FILE_TYPE == ExportTypeOptions.HTML.value:
-  table_results = df[columns].to_html(index=False).replace('class="dataframe"', 'class="dataframe" style="font-family: sans-serif;"')
+  table_results = df.to_html(index=False).replace('class="dataframe"', 'class="dataframe" style="font-family: sans-serif;"')
 else:
   pass
 
