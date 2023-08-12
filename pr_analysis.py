@@ -7,7 +7,7 @@ from alive_progress import alive_bar
 from dotenv import load_dotenv
 load_dotenv()
 
-from constants import EXPORT_FILE_TYPE, MAX_PAGE_COUNT_LIMIT, PULL_REQUEST_STATE, ExportTypeOptions
+from constants import EXPORT_FILE_TYPE, MAX_PAGE_COUNT_LIMIT, MERGE_TIME_FORMAT, PULL_REQUEST_STATE, ExportTypeOptions, MergeTimeFormat, PullRequestState
 
 github_graphql_api_url = os.getenv('GITHUB_GRAPHQL_API_URL')
 access_token = os.getenv('ACCESS_TOKEN')
@@ -153,26 +153,47 @@ df['Code Reviewers'] = code_reviewers
 approved_by_reviewers = get_unique_sorted_users(all_pr_data, 'approvedReviews')
 df['Approved By'] = approved_by_reviewers
 
+def format_merge_time(merge_time):
+    merge_time_str = ""
+    if MERGE_TIME_FORMAT == MergeTimeFormat.DAYS:
+        merge_time_days = merge_time.days
+        if merge_time_days == 0:
+            merge_time_str = 'same day'
+        else:
+            merge_time_str = f"{merge_time_days} day"
+            if merge_time_days > 1:
+                merge_time_str += "s"
+    elif MERGE_TIME_FORMAT == MergeTimeFormat.HOURS:
+        total_seconds = merge_time.total_seconds()
+        hours, remainder = divmod(total_seconds, 3600)
+        minutes, seconds = divmod(remainder, 60)
+        days, hours = divmod(hours, 24)
+        if days > 0:
+            merge_time_str += f"{int(days)}d "
+        if hours > 0:
+            merge_time_str += f"{int(hours)}h "
+        if minutes > 0:
+            merge_time_str += f"{int(minutes)}m "
+        if total_seconds < 60:
+            merge_time_str += f"{int(total_seconds)}s "
+    return merge_time_str.strip()
+
 def calculate_merge_times(data: any) -> list:
     merge_times = []
     for pr in data:
-        created_at = pd.to_datetime(pr['createdAt'])
-        closed_at = pd.to_datetime(pr['closedAt'])
-        if pd.notnull(closed_at):
-            merge_time = closed_at - created_at
-            merge_time_days = merge_time.days
-            if merge_time_days == 0:
-                merge_times.append('same day')
+        if pr['state'] == PullRequestState.MERGED.value:
+            created_at = pd.to_datetime(pr['createdAt'])
+            closed_at = pd.to_datetime(pr['closedAt'])
+            if pd.notnull(closed_at):
+                merge_time = closed_at - created_at
+                merge_times.append(format_merge_time(merge_time))
             else:
-                merge_time_str = f"{merge_time_days} day"
-                if merge_time_days > 1:
-                    merge_time_str += "s"
-                merge_times.append(merge_time_str)
+                merge_times.append('')
         else:
             merge_times.append('')
     return merge_times
-df['Merge Time (Days)'] = calculate_merge_times(all_pr_data)
 
+df['Merge Time (Days)'] = calculate_merge_times(all_pr_data)
 columns.append('Merge Time (Days)')
 
 if EXPORT_FILE_TYPE == ExportTypeOptions.MARKDOWN.value:
