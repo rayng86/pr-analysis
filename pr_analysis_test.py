@@ -67,7 +67,7 @@ def test_calculate_merge_times():
     {
         "number": 53179,
         "title": "Enhancing Performance and Functionality",
-        "state": "CLOSED",
+        "state": "MERGED",
         "author": {
         "login": "meh-user"
         },
@@ -93,7 +93,7 @@ def test_calculate_merge_times():
     all_pr_data = [{
         "number": 53179,
         "title": "Enhancing Performance and Functionality",
-        "state": "CLOSED",
+        "state": "MERGED",
         "author": {
         "login": "meh-user"
         },
@@ -119,7 +119,7 @@ def test_calculate_merge_times():
     all_pr_data = [{
         "number": 53179,
         "title": "Enhancing Performance and Functionality",
-        "state": "CLOSED",
+        "state": "MERGED",
         "author": {
         "login": "meh-user"
         },
@@ -142,7 +142,7 @@ def test_calculate_merge_times():
     {
         "number": 53179,
         "title": "Enhancing Performance and Functionality Part 2",
-        "state": "CLOSED",
+        "state": "MERGED",
         "author": {
         "login": "meh-user"
         },
