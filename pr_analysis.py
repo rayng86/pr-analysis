@@ -52,6 +52,7 @@ with alive_bar(None, title='Processing pages...') as bar:
           nodes {{
             number
             title
+            isDraft
             state
             author {{
               login
@@ -123,6 +124,7 @@ df = df.rename(columns={
   'number': 'PR #',
   'title': 'Title',
   'state': 'State',
+  'isDraft': 'Is Draft?',
   'author.login': 'Code Author',
   'createdAt': 'Created At',
   'closedAt': 'Closed At',
