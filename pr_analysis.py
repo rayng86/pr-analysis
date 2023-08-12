@@ -7,7 +7,7 @@ from alive_progress import alive_bar
 from dotenv import load_dotenv
 load_dotenv()
 
-from constants import EXPORT_FILE_TYPE, MAX_PAGE_COUNT_LIMIT, MERGE_TIME_FORMAT, PULL_REQUEST_STATE, ExportTypeOptions, MergeTimeFormat, PullRequestState
+from constants import EXPORT_FILE_TYPE, MAX_PAGE_COUNT_LIMIT, MERGE_TIME_FORMAT, PULL_REQUEST_STATE, ColumnNames, ExportTypeOptions, MergeTimeFormat, PullRequestState
 
 github_graphql_api_url = os.getenv('GITHUB_GRAPHQL_API_URL')
 access_token = os.getenv('ACCESS_TOKEN')
@@ -121,17 +121,17 @@ if response.json()['data']['repository']['pullRequests']['pageInfo']['hasNextPag
 df = pd.json_normalize(all_pr_data)
 
 df = df.rename(columns={
-  'number': 'PR #',
-  'title': 'Title',
-  'state': 'State',
-  'isDraft': 'Is Draft?',
-  'author.login': 'Code Author',
-  'createdAt': 'Created At',
-  'closedAt': 'Closed At',
-  'allReviews.edges': 'Code Reviewers',
-  'approvedReviews.edges': 'Approved By',
-  'changedFiles': 'File Changes',
-  'timelineItems.totalCount': '# Of Review Requests'
+  'number': ColumnNames.PR_NUMBER.value,
+  'title': ColumnNames.TITLE.value,
+  'state': ColumnNames.STATE.value,
+  'isDraft': ColumnNames.IS_DRAFT.value,
+  'author.login': ColumnNames.CODE_AUTHOR.value,
+  'createdAt': ColumnNames.CREATED_AT.value,
+  'closedAt': ColumnNames.CLOSED_AT.value,
+  'allReviews.edges': ColumnNames.CODE_REVIEWERS.value,
+  'approvedReviews.edges': ColumnNames.APPROVED_BY.value,
+  'changedFiles': ColumnNames.FILE_CHANGES.value,
+  'timelineItems.totalCount': ColumnNames.NUM_REVIEW_REQUESTS.value
 })
 
 df = df.rename(columns={'mergedBy.login': 'Merged By'}).drop(columns=['mergedBy'])
@@ -193,23 +193,23 @@ def calculate_merge_times(data: any) -> list:
             merge_times.append('')
     return merge_times
 
-df['Merge Time'] = calculate_merge_times(all_pr_data)
+df[ColumnNames.MERGE_TIME.value] = calculate_merge_times(all_pr_data)
 
 # reordered column results
 df = df[[
-  'PR #',
-  'Title',
-  'Created At',
-  'Closed At',
-  'Is Draft?',
-  'State',
-  'File Changes',
-  'Code Author',
-  'Code Reviewers',
-  '# Of Review Requests',
-  'Approved By',
-  'Merged By',
-  'Merge Time',
+  ColumnNames.PR_NUMBER.value,
+  ColumnNames.TITLE.value,
+  ColumnNames.CREATED_AT.value,
+  ColumnNames.CLOSED_AT.value,
+  ColumnNames.IS_DRAFT.value,
+  ColumnNames.STATE.value,
+  ColumnNames.FILE_CHANGES.value,
+  ColumnNames.CODE_AUTHOR.value,
+  ColumnNames.CODE_REVIEWERS.value,
+  ColumnNames.NUM_REVIEW_REQUESTS.value,
+  ColumnNames.APPROVED_BY.value,
+  ColumnNames.MERGED_BY.value,
+  ColumnNames.MERGE_TIME.value,
 ]]
 
 if EXPORT_FILE_TYPE == ExportTypeOptions.MARKDOWN.value:

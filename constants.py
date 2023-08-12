@@ -1,5 +1,20 @@
 from enum import Enum
 
+class ColumnNames(Enum):
+    PR_NUMBER = 'PR #'
+    TITLE = 'Title'
+    CREATED_AT = 'Created At'
+    CLOSED_AT = 'Closed At'
+    IS_DRAFT = 'Is Draft?'
+    STATE = 'State'
+    FILE_CHANGES = 'File Changes'
+    CODE_AUTHOR = 'Code Author'
+    CODE_REVIEWERS = 'Code Reviewers'
+    NUM_REVIEW_REQUESTS = '# Of Review Requests'
+    APPROVED_BY = 'Approved By'
+    MERGED_BY = 'Merged By'
+    MERGE_TIME = 'Merge Time'
+
 class PullRequestState(Enum):
     MERGED = 'MERGED'
     OPEN = 'OPEN'
