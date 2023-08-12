@@ -14,3 +14,9 @@ class ExportTypeOptions(Enum):
 PULL_REQUEST_STATE = PullRequestState.ALL.value
 EXPORT_FILE_TYPE = ExportTypeOptions.CSV.value
 MAX_PAGE_COUNT_LIMIT = 5
+
+class MergeTimeFormat(Enum):
+    HOURS = 'hours'
+    DAYS = 'days'
+
+MERGE_TIME_FORMAT = MergeTimeFormat.HOURS
