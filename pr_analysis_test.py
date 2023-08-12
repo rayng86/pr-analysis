@@ -1,3 +1,4 @@
+from constants import MERGE_TIME_FORMAT, MergeTimeFormat
 from pr_analysis import get_unique_sorted_users, create_labels_filter_query, calculate_merge_times
 
 def test_get_unique_sorted_users():
@@ -87,7 +88,10 @@ def test_calculate_merge_times():
             "login": "awesome-user"
         }
     }]
-    assert calculate_merge_times(all_pr_data) == ['same day']
+    if MERGE_TIME_FORMAT == MergeTimeFormat.DAYS:
+        assert calculate_merge_times(all_pr_data) == ['same day']
+    elif MERGE_TIME_FORMAT == MergeTimeFormat.HOURS:
+        assert calculate_merge_times(all_pr_data) == ['47m']
 
     # pull request merged after one day
     all_pr_data = [{
@@ -113,7 +117,10 @@ def test_calculate_merge_times():
             "login": "awesome-user"
         }
     }]
-    assert calculate_merge_times(all_pr_data) == ['1 day']
+    if MERGE_TIME_FORMAT == MergeTimeFormat.DAYS:
+        assert calculate_merge_times(all_pr_data) == ['1 day']
+    elif MERGE_TIME_FORMAT == MergeTimeFormat.HOURS:
+        assert calculate_merge_times(all_pr_data) == ['1d 47m']
 
     # pull request merged after multiple days
     all_pr_data = [{
@@ -162,4 +169,53 @@ def test_calculate_merge_times():
             "login": "awesome-user"
         }
     }]
-    assert calculate_merge_times(all_pr_data) == ['5 days', '36 days']
+    if MERGE_TIME_FORMAT == MergeTimeFormat.DAYS:
+        assert calculate_merge_times(all_pr_data) == ['5 days', '36 days']
+    elif MERGE_TIME_FORMAT == MergeTimeFormat.HOURS:
+        assert calculate_merge_times(all_pr_data) == ['5d 47m', '36d 47m']
+
+    # pull request state was closed
+    all_pr_data = [{
+        "number": 53179,
+        "title": "Enhancing Performance and Functionality",
+        "state": "CLOSED",
+        "author": {
+        "login": "meh-user"
+        },
+        "createdAt": "2023-07-25T20:22:52Z",
+        "closedAt": "2023-07-30T21:10:23Z",
+        "changedFiles": 4,
+        "timelineItems": {
+        "totalCount": 7
+        },
+        "approvedReviews": {
+        "edges": []
+        },
+        "allReviews": {
+        "edges": []
+        }
+    },
+    {
+        "number": 53179,
+        "title": "Enhancing Performance and Functionality Part 2",
+        "state": "CLOSED",
+        "author": {
+        "login": "meh-user"
+        },
+        "createdAt": "2023-07-25T20:22:52Z",
+        "closedAt": "2023-08-30T21:10:23Z",
+        "changedFiles": 4,
+        "timelineItems": {
+        "totalCount": 7
+        },
+        "approvedReviews": {
+        "edges": []
+        },
+        "allReviews": {
+        "edges": []
+        }
+    }]
+    if MERGE_TIME_FORMAT == MergeTimeFormat.DAYS:
+        assert calculate_merge_times(all_pr_data) == ['', '']
+    elif MERGE_TIME_FORMAT == MergeTimeFormat.HOURS:
+        assert calculate_merge_times(all_pr_data) == ['', '']
