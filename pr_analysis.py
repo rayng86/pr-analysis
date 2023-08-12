@@ -141,8 +141,6 @@ formatted_date_string = '%Y-%m-%d %H:%M:%S'
 df['Created At'] = pd.to_datetime(df['Created At']).dt.strftime(formatted_date_string)
 df['Closed At'] = pd.to_datetime(df['Closed At']).dt.strftime(formatted_date_string)
 
-columns = df.columns.tolist()
-
 def get_unique_sorted_users(data: any, key: str) -> list:
   '''
   Returns a list of unique sorted github users from the given pull request data
@@ -195,15 +193,31 @@ def calculate_merge_times(data: any) -> list:
             merge_times.append('')
     return merge_times
 
-df['Merge Time (Days)'] = calculate_merge_times(all_pr_data)
-columns.append('Merge Time (Days)')
+df['Merge Time'] = calculate_merge_times(all_pr_data)
+
+# reordered column results
+df = df[[
+  'PR #',
+  'Title',
+  'Created At',
+  'Closed At',
+  'Is Draft?',
+  'State',
+  'File Changes',
+  'Code Author',
+  'Code Reviewers',
+  '# Of Review Requests',
+  'Approved By',
+  'Merged By',
+  'Merge Time',
+]]
 
 if EXPORT_FILE_TYPE == ExportTypeOptions.MARKDOWN.value:
-  table_results = df[columns].to_markdown(index=False)
+  table_results = df.to_markdown(index=False)
 elif EXPORT_FILE_TYPE == ExportTypeOptions.CSV.value:
-  table_results = df[columns].to_csv(index=False)
+  table_results = df.to_csv(index=False)
 elif EXPORT_FILE_TYPE == ExportTypeOptions.HTML.value:
-  table_results = df[columns].to_html(index=False).replace('class="dataframe"', 'class="dataframe" style="font-family: sans-serif;"')
+  table_results = df.to_html(index=False).replace('class="dataframe"', 'class="dataframe" style="font-family: sans-serif;"')
 else:
   pass
 
